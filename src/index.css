@@ -6,12 +6,9 @@
 	--font-fira-code: 'Fira Code', monospace;
 	--font-geist: Geist, sans-serif;
 
-	--color-primary-light: #1a41ca;
-	--color-primary-dark: #74f7d0;
-	--color-secondary-light: #7beac1;
-	--color-tertiary-light: #00bba7;
-	--color-tertiary-dark: #d1fae5;
-	--color-soft-white: #f4f4f5;
+	--color-primary: #1a41ca;
+	--color-secondary: #7beac1;
+	--color-tertiary: #444444;
 }
 
 @layer base {
@@ -26,11 +23,11 @@
 
 	html,
 	body {
-		@apply bg-gray-200/50 dark:bg-[#1F2A37] text-gray-700 dark:text-slate-300 text-sm md:text-base font-light font-geist;
+		@apply bg-gray-100 text-gray-700 text-sm md:text-base font-light font-geist;
 	}
 
 	h1 {
-		@apply text-4xl text-primary-light dark:text-secondary-light font-outfit font-semibold tracking-tight;
+		@apply text-4xl text-primary font-outfit font-semibold tracking-tight;
 	}
 
 	p {

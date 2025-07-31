@@ -22,13 +22,13 @@ const Header = ({
 	};
 
 	return (
-		<header className='px-4 lg:px-6 py-4 bg-white border-b-2 border-gray-200'>
+		<header className='sticky top-0 z-10 px-4 lg:px-6 py-4 bg-white border-b border-gray-200'>
 			<div className='flex items-center justify-between gap-4'>
 				<button
 					type='button'
 					aria-label='Toggle Sidebar Navigation'
 					onClick={toggleSidebar}
-					className='p-2 bg-primary-light hover:bg-primary-dark rounded-md text-white transition-all duration-300 ease-in-out'
+					className='p-2 bg-primary hover:bg-primary-dark rounded-md text-white transition-all duration-300 ease-in-out'
 				>
 					<ChevronsRight
 						className={`size-6 ${isSidebarExpanded ? 'rotate-180' : ''}`}

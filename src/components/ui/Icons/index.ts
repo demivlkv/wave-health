@@ -1,3 +1,4 @@
+export { default as ChevronDown } from './ChevronDown';
 export { default as ChevronsRight } from './ChevronsRight';
 export { default as ChevronUp } from './ChevronUp';
 export { default as Logout } from './Logout';

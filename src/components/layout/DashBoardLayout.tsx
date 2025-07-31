@@ -4,19 +4,19 @@ import Footer from './Footer';
 import Header from './Header';
 import Sidebar from './Sidebar';
 
-const DashBoardLayout = ({ children }: { children: React.ReactNode }) => {
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 	const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(false);
 
 	return (
-		<div className='h-screen flex'>
+		<div className='h-screen flex overflow-hidden'>
 			<Sidebar
 				isMobileMenuOpen={isMobileMenuOpen}
 				setIsMobileMenuOpen={setIsMobileMenuOpen}
 				isExpanded={isSidebarExpanded}
 				setIsExpanded={setIsSidebarExpanded}
 			/>
-			<div className='flex-1 flex flex-col'>
+			<div className='flex-1 flex flex-col min-h-0'>
 				<Header
 					isMobileMenuOpen={isMobileMenuOpen}
 					setIsMobileMenuOpen={setIsMobileMenuOpen}
@@ -24,11 +24,11 @@ const DashBoardLayout = ({ children }: { children: React.ReactNode }) => {
 					setIsSidebarExpanded={setIsSidebarExpanded}
 				/>
 				<Container>
-					<main className='flex-1 overflow-auto'>{children}</main>
+					<main>{children}</main>
 				</Container>
 				<Footer />
 			</div>
 		</div>
 	);
 };
-export default DashBoardLayout;
+export default DashboardLayout;
