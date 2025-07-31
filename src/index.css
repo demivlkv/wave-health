@@ -1,1 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700&family=Source+Code+Pro:wght@200;300;400;500;600;700&family=Geist&display=swap');
 @import 'tailwindcss';
+
+@theme {
+	--font-outfit: Outfit, sans-serif;
+	--font-fira-code: 'Fira Code', monospace;
+	--font-geist: Geist, sans-serif;
+
+	--color-primary-light: #1a41ca;
+	--color-primary-dark: #74f7d0;
+	--color-secondary-light: #7beac1;
+	--color-tertiary-light: #00bba7;
+	--color-tertiary-dark: #d1fae5;
+	--color-soft-white: #f4f4f5;
+}
+
+@layer base {
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+		scroll-behavior: smooth;
+	}
+
+	html,
+	body {
+		@apply bg-gray-200/50 dark:bg-[#1F2A37] text-gray-700 dark:text-slate-300 text-sm md:text-base font-light font-geist;
+	}
+
+	h1 {
+		@apply text-4xl text-primary-light dark:text-secondary-light font-outfit font-semibold tracking-tight;
+	}
+
+	p {
+		@apply leading-relaxed text-pretty;
+	}
+
+	button:not(:disabled),
+	[role='button']:not(:disabled) {
+		@apply cursor-pointer;
+	}
+}

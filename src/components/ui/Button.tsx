@@ -28,7 +28,7 @@ const Button = ({ type, className, children }: ButtonProps) => {
 	return (
 		<button
 			type='button'
-			className={`px-2.5 py-1.5 ${bgColor} ${textColor} ${className} rounded-md font-semibold transition-all ease-in-out duration-300`}
+			className={`px-4 py-1.5 ${bgColor} ${textColor} ${className} rounded-md font-semibold transition-all ease-in-out duration-300`}
 		>
 			{children}
 		</button>
