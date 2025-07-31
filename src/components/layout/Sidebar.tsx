@@ -41,7 +41,7 @@ const Sidebar = ({
         `}
 			>
 				{/* Expand/Collapse Button */}
-				<section className='px-4 pt-5'>
+				<section className='px-4 pt-5 inline-flex items-center gap-4'>
 					<button
 						type='button'
 						className='size-8 flex items-center justify-center'
@@ -49,10 +49,11 @@ const Sidebar = ({
 					>
 						<UserAvatar />
 					</button>
+					{isExpanded ? <span className=''>Wave Health</span> : null}
 				</section>
 
 				{/* Navigation */}
-				<nav className='flex-1 py-4'>
+				<nav className='flex-1 py-5'>
 					<ul className='space-y-1'>
 						{menuItems.map((item) => {
 							const Icon = item.icon;
