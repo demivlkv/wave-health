@@ -1,1 +1,0 @@
-import{r as s}from"./index-S3qBzJNn.js";import{b as e}from"./User-BT0jquR3.js";const n=()=>{const r=s.useContext(e);if(r===void 0)throw new Error("useUsers must be used within a UsersProvider");return r};export{n as u};
