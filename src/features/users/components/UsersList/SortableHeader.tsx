@@ -1,5 +1,5 @@
-import { ChevronDown, ChevronUp } from '../../../../components/ui/Icons';
 import type { SortConfig } from '../../users.types';
+import { ChevronDown, ChevronUp } from '../../../../components/ui/Icons';
 
 interface SortableHeaderProps {
 	column: SortConfig['key'];

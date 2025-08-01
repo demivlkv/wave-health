@@ -67,7 +67,7 @@ const Sidebar = ({
 								${!isExpanded && !isMobile ? 'justify-center' : 'space-x-3'}
 							`}
 							title={!isExpanded && !isMobile ? item.label : undefined}
-							aria-label={isMobile ? item.label : undefined}
+							aria-label={item.label}
 						>
 							<Icon className='flex-shrink-0 size-5' />
 							<span
@@ -96,6 +96,7 @@ const Sidebar = ({
 					w-full flex items-center px-4 py-3 hover:bg-gray-50 text-gray-600 hover:text-gray-900 transition-colors
 					${!isExpanded && !isMobile ? 'justify-center' : 'space-x-3'}
 				`}
+				aria-label='Scroll to Top'
 				title={!isExpanded && !isMobile ? 'Scroll to Top' : undefined}
 			>
 				<div className='size-5 flex items-center justify-center'>
@@ -120,6 +121,7 @@ const Sidebar = ({
 					w-full flex items-center px-4 py-3 transition-colors bg-primary hover:bg-gray-800 text-white
 					${!isExpanded && !isMobile ? 'justify-center' : ''}
 				`}
+				aria-label='Logout'
 				title={!isExpanded && !isMobile ? 'Logout' : undefined}
 			>
 				<div className='size-5 flex items-center justify-center'>

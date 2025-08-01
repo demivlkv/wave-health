@@ -4,12 +4,14 @@ import type { User } from '../../../../types/global.types';
 import type { SortConfig } from '../../users.types';
 import SortableHeader from './SortableHeader';
 import UserRow from './UserRow';
-import Modal from '../../../../components/ui/Modal';
+import UserModal from './UserModal';
+import SearchBar from './SearchBar';
 
 const UsersList = () => {
 	const { users, loading, error } = useFetchUsers();
 
 	const [selectedUser, setSelectedUser] = useState<User | null>(null);
+	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [sortConfig, setSortConfig] = useState<SortConfig>({
 		key: 'name',
 		direction: 'asc',
@@ -46,10 +48,21 @@ const UsersList = () => {
 		});
 	}, [users, sortConfig]);
 
-	// pagination
+	// pagination calculations
 	const totalPages = Math.ceil(sortedUsers.length / usersPerPage);
 	const startIndex = (currentPage - 1) * usersPerPage;
 	const currentUsers = sortedUsers.slice(startIndex, startIndex + usersPerPage);
+
+	// reset to first page when search term changes
+	const handleSearch = (term: string) => {
+		setSearchTerm(term);
+		setCurrentPage(1); // reset pagination when searching
+	};
+
+	const handleClearSearch = () => {
+		setSearchTerm('');
+		setCurrentPage(1);
+	};
 
 	const handleSort = (key: SortConfig['key']) => {
 		setSortConfig((prev) => ({
@@ -63,16 +76,46 @@ const UsersList = () => {
 	};
 
 	if (loading) {
-		return <span>Loading users...</span>;
+		return (
+			<div className='flex flex-col items-center gap-4 justify-center py-12'>
+				<div className='animate-spin size-8 border-b-2 border-primary rounded-full'></div>
+				<span className='ml-3 text-gray-600'>Loading users...</span>
+			</div>
+		);
 	}
 
 	if (error) {
-		return <span>{error}</span>;
+		return (
+			<div className='bg-red-50 border border-red-200 rounded-lg p-4 text-red-700'>
+				<strong>Error:</strong> {error}
+			</div>
+		);
 	}
 
 	return (
 		<>
-			<h1 className='mb-8'>Users List</h1>
+			<h1 className='mb-4'>Users List</h1>
+			<section className='my-4 flex justify-between items-center gap-4'>
+				<p className='text-sm text-gray-500 mt-1'>
+					{searchTerm ? (
+						<>
+							Page {currentPage} of {totalPages} • {sortedUsers.length} result
+							{sortedUsers.length !== 1 ? 's' : ''}
+						</>
+					) : (
+						<>
+							Page {currentPage} of {totalPages} • {sortedUsers.length} total
+							users
+						</>
+					)}
+				</p>
+
+				<SearchBar
+					searchTerm={searchTerm}
+					onSearch={handleSearch}
+					onClear={handleClearSearch}
+				/>
+			</section>
 
 			<section>
 				{/* Table Header */}
@@ -177,7 +220,7 @@ const UsersList = () => {
 
 			{/* User Details Modal */}
 			{selectedUser && (
-				<Modal
+				<UserModal
 					selectedUser={selectedUser}
 					setSelectedUser={setSelectedUser}
 				/>

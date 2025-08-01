@@ -1,6 +1,6 @@
-import { ChevronUp } from '../../../../components/ui/Icons';
-import UserAvatar from '../../../../components/ui/UserAvatar';
 import type { User } from '../../../../types/global.types';
+import UserAvatar from '../../../../components/ui/UserAvatar';
+import { ChevronUp } from '../../../../components/ui/Icons';
 
 interface UserRowProps {
 	user: User;
