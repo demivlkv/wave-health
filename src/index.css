@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700&&family=Geist&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700&family=Geist:wght@100..900&display=swap');
 @import 'tailwindcss';
 
 @theme {
@@ -7,7 +7,7 @@
 
 	--color-primary: #1a41ca;
 	--color-secondary: #7beac1;
-	--color-tertiary: #444444;
+	--color-tertiary: #06b6d4;
 }
 
 @layer base {
@@ -22,11 +22,11 @@
 
 	html,
 	body {
-		@apply bg-gray-100 text-gray-700 text-sm md:text-base font-light font-geist;
+		@apply bg-[#0a0e27] text-slate-200 text-sm md:text-base font-light font-geist;
 	}
 
 	h1 {
-		@apply text-4xl text-primary font-outfit font-semibold tracking-tight;
+		@apply bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent text-4xl font-outfit font-semibold tracking-tight;
 	}
 
 	p {

@@ -1,11 +1,14 @@
 import { Outlet } from 'react-router-dom';
-import DashboardLayout from './components/layout/DashBoardLayout';
+import DashboardLayout from './components/layout/DashboardLayout';
+import { UsersProvider } from './contexts/UsersContext';
 
 const App = () => {
 	return (
-		<DashboardLayout>
-			<Outlet />
-		</DashboardLayout>
+		<UsersProvider>
+			<DashboardLayout>
+				<Outlet />
+			</DashboardLayout>
+		</UsersProvider>
 	);
 };
 

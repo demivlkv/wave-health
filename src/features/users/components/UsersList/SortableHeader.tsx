@@ -24,17 +24,17 @@ const SortableHeader = ({
 			id={`sort-${column}-btn`}
 			aria-label={`Sort by ${column}`}
 			onClick={() => onSort(column)}
-			className={`flex items-center space-x-1 text-xs font-medium text-gray-500 hover:text-gray-700 transition-colors uppercase tracking-wide text-left ${className}`}
+			className={`flex items-center space-x-1 text-xs font-medium text-slate-400 hover:text-slate-200 transition-colors uppercase tracking-wide text-left ${className}`}
 		>
 			<span>{children}</span>
 			{isActive ? (
 				currentSort.direction === 'asc' ? (
-					<ChevronUp className='size-3' />
+					<ChevronUp className='size-3 text-cyan-300' />
 				) : (
-					<ChevronDown className='size-3' />
+					<ChevronDown className='size-3 text-cyan-300' />
 				)
 			) : (
-				<ChevronDown className='size-3 opacity-30' />
+				<ChevronDown className='size-3 text-cyan-300' />
 			)}
 		</button>
 	);

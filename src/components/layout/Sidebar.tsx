@@ -1,6 +1,13 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import UserAvatar from '../ui/UserAvatar';
-import { ChevronUp, Logout, Settings, User, UserPlus } from '../ui/Icons';
+import {
+	ChevronUp,
+	Close,
+	Logout,
+	Settings,
+	User,
+	UserPlus,
+} from '../ui/Icons';
 
 interface SidebarProps {
 	isMobileMenuOpen: boolean;
@@ -58,11 +65,11 @@ const Sidebar = ({
 						<button
 							type='button'
 							onClick={() => handleNavigation(item.url)}
-							className={`relative w-full flex items-center px-4 py-3 text-left rounded-md transition-all duration-200
+							className={`relative w-full px-4 py-3 flex items-center text-left rounded-md transition-all duration-200
 								${
 									isActive
-										? 'bg-primary text-white'
-										: 'text-gray-600 hover:bg-secondary/30 hover:text-gray-900'
+										? 'bg-gradient-to-r from-indigo-600 to-cyan-500 text-white'
+										: 'text-slate-300 hover:bg-white/5 hover:text-white'
 								}
 								${!isExpanded && !isMobile ? 'justify-center' : 'space-x-3'}
 							`}
@@ -86,14 +93,14 @@ const Sidebar = ({
 
 	const BottomActions = ({ isMobile = false }: { isMobile?: boolean }) => (
 		<section
-			className={`border-t border-gray-200 ${
+			className={`border-t border-white/10 ${
 				isMobile ? 'absolute bottom-0 left-0 right-0' : ''
 			}`}
 		>
 			<button
 				type='button'
 				className={`
-					w-full flex items-center px-4 py-3 hover:bg-gray-50 text-gray-600 hover:text-gray-900 transition-colors
+					w-full px-4 py-3 flex items-center hover:bg-white/5 text-slate-300 hover:text-white transition-colors
 					${!isExpanded && !isMobile ? 'justify-center' : 'space-x-3'}
 				`}
 				aria-label='Scroll to Top'
@@ -118,8 +125,8 @@ const Sidebar = ({
 			<button
 				type='button'
 				className={`
-					w-full flex items-center px-4 py-3 transition-colors bg-primary hover:bg-gray-800 text-white
-					${!isExpanded && !isMobile ? 'justify-center' : ''}
+					w-full px-4 py-3 flex items-center transition-colors bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-700 hover:to-cyan-600 text-white
+					${!isExpanded && !isMobile ? 'justify-center' : 'space-x-3'}
 				`}
 				aria-label='Logout'
 				title={!isExpanded && !isMobile ? 'Logout' : undefined}
@@ -147,7 +154,7 @@ const Sidebar = ({
 			{/* Desktop Sidebar */}
 			<aside
 				className={`
-					z-30 hidden md:flex flex-col h-screen bg-white border-r border-gray-200 font-outfit font-medium transition-all duration-200
+					z-30 hidden md:flex flex-col h-screen bg-slate-900/95 backdrop-blur-xl border-r border-white/10 font-outfit font-medium transition-all duration-200
 					${isExpanded ? 'w-64' : 'w-16'}
 				`}
 			>
@@ -159,7 +166,9 @@ const Sidebar = ({
 					>
 						<UserAvatar />
 					</button>
-					{isExpanded && <span>Wave Health</span>}
+					{isExpanded && (
+						<span className='text-white font-semibold'>Wave Health</span>
+					)}
 				</section>
 
 				<nav className='flex-1 py-5'>
@@ -172,20 +181,31 @@ const Sidebar = ({
 			{/* Mobile Sidebar */}
 			<aside
 				className={`
-					z-30 fixed md:hidden left-0 top-0 h-full w-64 bg-white border-r border-gray-200 transform transition-transform duration-300
+					z-30 fixed md:hidden left-0 top-0 h-full w-64 bg-slate-900/95 backdrop-blur-xl border-r border-white/10 transform transition-transform duration-300
 					${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
 				`}
 			>
-				<section className='px-4 pt-5 inline-flex items-center gap-4'>
+				<section className='px-4 pt-5 flex items-center justify-between'>
+					<div className='flex items-center gap-4'>
+						<button
+							type='button'
+							className='size-8 flex items-center justify-center'
+							onClick={handleHeaderClick}
+						>
+							<UserAvatar />
+						</button>
+						<span className='text-white font-semibold'>Wave Health</span>
+					</div>
+
+					{/* Close Button */}
 					<button
 						type='button'
-						aria-label='Close Menu'
 						onClick={handleHeaderClick}
-						className='size-8 flex items-center justify-center'
+						className='p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-md transition-colors'
+						aria-label='Close navigation menu'
 					>
-						<UserAvatar />
+						<Close className='size-5' />
 					</button>
-					{isMobileMenuOpen && <span>Wave Health</span>}
 				</section>
 
 				<nav className='py-4'>

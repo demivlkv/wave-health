@@ -27,3 +27,19 @@ interface UserCompany {
 	catchPhrase: string;
 	bs: string;
 }
+
+export interface FormErrors {
+	[key: string]: string;
+}
+
+export interface InputFieldProps {
+	label: string;
+	name: string;
+	value: string;
+	onChange: (name: string, value: string) => void;
+	error?: string;
+	type?: 'text' | 'email' | 'tel' | 'url';
+	required?: boolean;
+	placeholder?: string;
+	disabled?: boolean;
+}

@@ -6,7 +6,7 @@ import Sidebar from './Sidebar';
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
-	const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(false);
+	const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(true);
 
 	return (
 		<div className='h-screen flex overflow-hidden'>
