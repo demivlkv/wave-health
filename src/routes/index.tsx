@@ -12,6 +12,7 @@ const routes: RouteObject[] = [
 ];
 
 const router = createBrowserRouter(routes, {
+	basename: '/wave-health',
 	future: {
 		v7_relativeSplatPath: true,
 		v7_fetcherPersist: true,
