@@ -6,6 +6,49 @@ import SortableHeader from './SortableHeader';
 import UserRow from './UserRow';
 import UserModal from './UserModal';
 import SearchBar from './SearchBar';
+import { Search } from '../../../../components/ui/Icons';
+
+// filter users via searchbar
+const filterUsers = (users: User[], searchTerm: string): User[] => {
+	if (!searchTerm.trim()) return users;
+
+	const lowercaseSearch = searchTerm.toLowerCase().trim();
+
+	return users.filter(
+		(user) =>
+			user.name.toLowerCase().includes(lowercaseSearch) ||
+			user.email.toLowerCase().includes(lowercaseSearch)
+	);
+};
+
+const sortUsers = (users: User[], sortConfig: SortConfig): User[] => {
+	return [...users].sort((a, b) => {
+		const getValue = (user: User): string => {
+			switch (sortConfig.key) {
+				case 'name':
+					return user.name;
+				case 'email':
+					return user.email;
+				case 'address.city':
+					return user.address.city;
+				case 'company.name':
+					return user.company.name;
+				default:
+					return '';
+			}
+		};
+
+		const aValue = getValue(a);
+		const bValue = getValue(b);
+
+		const comparison = aValue.localeCompare(bValue, undefined, {
+			numeric: true,
+			sensitivity: 'base',
+		});
+
+		return sortConfig.direction === 'asc' ? comparison : -comparison;
+	});
+};
 
 const UsersList = () => {
 	const { users, loading, error } = useFetchUsers();
@@ -19,34 +62,15 @@ const UsersList = () => {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const usersPerPage = 10;
 
+	// filter users based on search term
+	const filteredUsers = useMemo(() => {
+		return filterUsers(users, searchTerm);
+	}, [users, searchTerm]);
+
+	// sort the filtered users
 	const sortedUsers = useMemo(() => {
-		return [...users].sort((a, b) => {
-			const getValue = (user: User): string => {
-				switch (sortConfig.key) {
-					case 'name':
-						return user.name;
-					case 'email':
-						return user.email;
-					case 'address.city':
-						return user.address.city;
-					case 'company.name':
-						return user.company.name;
-					default:
-						return '';
-				}
-			};
-
-			const aValue = getValue(a);
-			const bValue = getValue(b);
-
-			const comparison = aValue.localeCompare(bValue, undefined, {
-				numeric: true,
-				sensitivity: 'base',
-			});
-
-			return sortConfig.direction === 'asc' ? comparison : -comparison;
-		});
-	}, [users, sortConfig]);
+		return sortUsers(filteredUsers, sortConfig);
+	}, [filteredUsers, sortConfig]);
 
 	// pagination calculations
 	const totalPages = Math.ceil(sortedUsers.length / usersPerPage);
@@ -177,13 +201,39 @@ const UsersList = () => {
 
 			{/* Users List */}
 			<section className='list-none flex flex-col gap-4'>
-				{currentUsers.map((user) => (
-					<UserRow
-						key={user.id}
-						user={user}
-						onViewDetails={handleViewDetails}
-					/>
-				))}
+				{currentUsers.length > 0 ? (
+					currentUsers.map((user) => (
+						<UserRow
+							key={user.id}
+							user={user}
+							onViewDetails={handleViewDetails}
+						/>
+					))
+				) : (
+					<article className='py-12 text-gray-500 text-center'>
+						{searchTerm ? (
+							<div className='flex flex-col justify-center items-center gap-2'>
+								<Search className='size-12 text-gray-300' />
+								<p className='mb-2 text-2xl font-outfit font-medium'>
+									No users found
+								</p>
+								<p className='text-sm'>
+									Try adjusting your search terms or{' '}
+									<button
+										onClick={handleClearSearch}
+										className='text-primary hover:underline'
+									>
+										clear the search
+									</button>
+								</p>
+							</div>
+						) : (
+							<p className='text-2xl font-outfit font-medium'>
+								No users available
+							</p>
+						)}
+					</article>
+				)}
 			</section>
 
 			{/* Pagination Footer */}
