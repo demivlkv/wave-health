@@ -90,8 +90,8 @@ Deploy the `dist/` folder to Netlify, Vercel, or any static hosting service. The
 
 ## Screenshots
 
-![screenshot: homepage](/../main/src/assets/screenshots/home.png)
-![screenshot: add user form](/../main/src/assets/screenshots/add-user.png)
+![screenshot: homepage](/../main/src/assets/home.png)
+![screenshot: add user form](/../main/src/assets/add-user.png)
 
 ## Architecture & Design Decisions
 
