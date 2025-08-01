@@ -11,4 +11,8 @@ export default defineConfig({
 		environment: 'jsdom',
 		setupFiles: './src/test/setup.ts',
 	},
+	base: '/wave-health/',
+	build: {
+		outDir: 'dist',
+	},
 });

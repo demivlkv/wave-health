@@ -12,8 +12,8 @@
 		"test:ui": "vitest --ui",
 		"test:coverage": "vitest --coverage",
 		"test:run": "vitest run",
-		"predeploy": "npm run build",
-		"deploy": "gh-pages -d dist"
+		"deploy": "npm run build && gh-pages -d dist",
+		"predeploy": "npm run build"
 	},
 	"dependencies": {
 		"@tailwindcss/vite": "^4.1.11",
