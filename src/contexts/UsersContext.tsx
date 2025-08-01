@@ -9,20 +9,16 @@ interface UsersState {
 	lastFetched: number | null;
 }
 
+// all possible actions that can update user state
 type UsersAction =
-	| { type: 'FETCH_START' }
-	| { type: 'FETCH_SUCCESS'; payload: User[] }
-	| { type: 'FETCH_ERROR'; payload: string }
-	| { type: 'ADD_USER'; payload: User }
-	| { type: 'UPDATE_USER'; payload: User }
-	| { type: 'DELETE_USER'; payload: number }
-	| { type: 'CLEAR_ERROR' };
+	| { type: 'FETCH_START' } // start loading users from api
+	| { type: 'FETCH_SUCCESS'; payload: User[] } // successfully loaded users
+	| { type: 'FETCH_ERROR'; payload: string } // error occurred during fetch
+	| { type: 'ADD_USER'; payload: User } // add new user locally
+	| { type: 'CLEAR_ERROR' }; // reset error state
 
 export interface UsersContextType extends UsersState {
-	addUser: (userData: Omit<User, 'id'>) => void;
-	updateUser: (user: User) => void;
-	deleteUser: (id: number) => void;
-	refetchUsers: () => void;
+	addUser: (userData: Omit<User, 'id'>) => void; // add user without id (auto-generated)
 	clearError: () => void;
 }
 
@@ -33,6 +29,7 @@ const initialState: UsersState = {
 	lastFetched: null,
 };
 
+// handle users state updates
 const usersReducer = (state: UsersState, action: UsersAction): UsersState => {
 	switch (action.type) {
 		case 'FETCH_START':
@@ -43,6 +40,7 @@ const usersReducer = (state: UsersState, action: UsersAction): UsersState => {
 			};
 
 		case 'FETCH_SUCCESS':
+			// users loaded successfully & update cache timestamp
 			return {
 				...state,
 				loading: false,
@@ -59,23 +57,10 @@ const usersReducer = (state: UsersState, action: UsersAction): UsersState => {
 			};
 
 		case 'ADD_USER':
+			// add new user to existing list (local only)
 			return {
 				...state,
 				users: [...state.users, action.payload],
-			};
-
-		case 'UPDATE_USER':
-			return {
-				...state,
-				users: state.users.map((user) =>
-					user.id === action.payload.id ? action.payload : user
-				),
-			};
-
-		case 'DELETE_USER':
-			return {
-				...state,
-				users: state.users.filter((user) => user.id !== action.payload),
 			};
 
 		case 'CLEAR_ERROR':
@@ -102,10 +87,10 @@ export const UsersProvider: React.FC<{ children: React.ReactNode }> = ({
 		// skip if data is fresh (less than 10 minutes old)
 		const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 		if (state.lastFetched && Date.now() - state.lastFetched < CACHE_DURATION) {
-			return;
+			return; // use cached data
 		}
 
-		dispatch({ type: 'FETCH_START' });
+		dispatch({ type: 'FETCH_START' }); // start loading state
 
 		try {
 			const getUsersApi = import.meta.env.VITE_GET_USERS_API;
@@ -114,6 +99,7 @@ export const UsersProvider: React.FC<{ children: React.ReactNode }> = ({
 				throw new Error(`Failed to fetch users: ${response.status}`);
 			}
 
+			// parse json & update state
 			const users = await response.json();
 			dispatch({ type: 'FETCH_SUCCESS', payload: users });
 		} catch (error) {
@@ -123,16 +109,18 @@ export const UsersProvider: React.FC<{ children: React.ReactNode }> = ({
 		}
 	};
 
-	// auto-fetch on mount
+	// auto-fetch users once on mount
 	useEffect(() => {
 		fetchUsers();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	// create context value with state and actions
 	const contextValue: UsersContextType = {
 		...state,
 
 		addUser: (userData: Omit<User, 'id'>) => {
-			// generate new ID
+			// generate new id by finding max existing id + 1
 			const newId = Math.max(...state.users.map((u) => u.id), 0) + 1;
 			const newUser: User = {
 				...userData,
@@ -141,21 +129,12 @@ export const UsersProvider: React.FC<{ children: React.ReactNode }> = ({
 			dispatch({ type: 'ADD_USER', payload: newUser });
 		},
 
-		updateUser: (user: User) => {
-			dispatch({ type: 'UPDATE_USER', payload: user });
-		},
-
-		deleteUser: (id: number) => {
-			dispatch({ type: 'DELETE_USER', payload: id });
-		},
-
-		refetchUsers: fetchUsers,
-
 		clearError: () => {
 			dispatch({ type: 'CLEAR_ERROR' });
 		},
 	};
 
+	// provide context value to all child components
 	return (
 		<UsersContext.Provider value={contextValue}>
 			{children}
